@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lexianmanager.dao.ManagerDao">
+
+	<select id="selectByNameAndPwd" parameterType="com.lexianmanager.po.ManagerQueryVo"
+		resultType="com.lexianmanager.po.Manager">
+		select * from manager where m_phone = #{m_phone} and m_password =
+		#{m_password}
+	</select>
+
+	<select id="selectByPhone" parameterType="com.lexianmanager.po.Manager"
+		resultType="com.lexianmanager.po.Manager">
+		select * from manager where m_phone = #{m_phone}
+	</select>
+
+	<insert id="insertManager" parameterType="com.lexianmanager.po.Manager">
+		insert into manager(m_phone,m_password,sto_no)
+		values(#{m_phone},#{m_password},#{sto_no})
+	</insert>
+
+</mapper>

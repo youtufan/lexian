@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lexianmanager.dao.OrderDao" >
+
+  <select id="findAllOrder"  resultType="com.lexianmanager.po.Orders" >
+    select * from Orders 
+  </select>
+  
+  <update id="updateOrderStates" parameterType="map">
+    update orders set o_states = #{o_states},
+    				  paymenttype = #{paymenttype},
+    				  deliverytype = #{deliverytype}
+                    where o_no = #{o_no}
+  </update>
+  
+  <insert id="insertOrder" parameterType="com.lexianmanager.po.Orders">
+		insert into
+		orders(o_no,u_id,sto_no,totalamount,o_states)
+		values(#{o_no},#{u_id},#{sto_no},#{totalamount},#{o_states})
+  </insert>
+ 
+  <select id="findOid" parameterType="java.lang.String" resultType="java.lang.Integer" >
+    select o_id from Orders where o_no = #{o_no}
+  </select>
+  
+  <insert id="insertOrderItem" parameterType="com.lexianmanager.po.Orderitem">
+		insert into
+		orderitem(o_id,com_no,amount,listprice,oi_totalprice)
+		values(#{o_id},#{com_no},#{amount},#{listprice},#{oi_totalprice})
+  </insert>
+  
+</mapper>

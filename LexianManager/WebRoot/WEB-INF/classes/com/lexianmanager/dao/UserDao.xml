@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lexianmanager.dao.UserDao">
+
+	<select id="selectByNameAndPwd" parameterType="com.lexianmanager.po.UserQueryVo"
+		resultType="com.lexianmanager.po.User">
+		select * from user where u_phone = #{u_phone} and u_password = #{u_password}
+	</select>
+
+	<select id="selectByPhone" parameterType="com.lexianmanager.po.User"
+		resultType="com.lexianmanager.po.User">
+		select * from user where u_phone = #{u_phone}
+	</select>
+
+	<update id="updateUser" parameterType="com.lexianmanager.po.User">
+		update user set u_status = #{u_status}
+		where u_phone = #{u_phone}
+	</update>
+
+	<select id="findAllUser" resultType="com.lexianmanager.po.User">
+		select * from user
+	</select>
+
+	<insert id="insertUser" parameterType="com.lexianmanager.po.User">
+		insert into
+		user(u_phone,username,u_name,mail,u_password,u_status)
+		values(#{u_phone},"用户","User",#{mail},#{u_password},1)
+	</insert>
+	
+	<select id="getUserId" parameterType="java.lang.String" resultType="java.lang.String">
+		select u_id from user where u_phone = #{u_phone,jdbcType=VARCHAR}
+	</select>
+
+	<select id="selectById" parameterType="int"
+		resultType="com.lexianmanager.po.User">
+		select * from user where u_id = #{u_id}
+	</select>
+
+	<update id="updateUserInfo"
+		parameterType="com.lexianmanager.po.UserInfoVo">
+		update user set
+		u_name=#{u_name},u_phone=#{u_phone},sex=#{sex},mail=#{mail} where
+		u_phone=#{u_phone}
+		
+	</update>
+	
+	<select id="selectOrderById"
+		parameterType="com.lexianmanager.po.OrdersQueryVo"
+		resultType="com.lexianmanager.po.Orderitem">
+		select orderitem.* from orderitem where o_id = #{o_id}
+	</select>
+
+	<select id="selectCommodityByNo" parameterType="com.lexianmanager.po.OrderitemVo"
+		resultType="com.lexianmanager.po.Commodity">
+		select * from commodity where com_no = #{com_no}
+	</select>
+	
+
+	<select id="selectAllOrderByUid" parameterType="int"
+		resultType="com.lexianmanager.po.Orders">
+		select orders.* from orders where u_id = #{u_id}
+	</select>
+
+	<select id="selectStoreByNo" parameterType="com.lexianmanager.po.OrdersQueryVo"
+		resultType="com.lexianmanager.po.Store">
+		select * from store where sto_no = #{sto_no}
+	</select>
+	
+	<select id="selectIdByPhone" parameterType="String"
+		resultType="int">
+		select u_id from user where u_phone = #{u_phone}
+	</select>
+</mapper>

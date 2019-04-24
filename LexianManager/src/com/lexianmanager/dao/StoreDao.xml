@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lexianmanager.dao.StoreDao" >
+
+  <select id="findAllStore"  resultType="com.lexianmanager.po.Store" >
+    select * from store 
+  </select>
+  
+  <select id="findStoreById" parameterType="java.lang.Integer" resultType="com.lexianmanager.po.Store" >
+    select * from store where sto_no = #{sto_no,jdbcType=INTEGER}
+  </select>
+  
+  	<!-- 定义商品查询的sql片段，就是商品查询条件 -->
+	<sql id="query_store_where">
+		<!-- 使用动态sql，通过if判断，满足条件进行sql拼接 -->
+		<!-- 商品查询条件通过ItemsQueryVo包装对象 中itemsCustom属性传递 -->
+		<if test="StoreManagerVo!=null">
+			<if
+				test="StoreManagerVo.sto_name!=null and StoreManagerVo.sto_name!=''">
+				store.name LIKE '%${StoreManagerVo.sto_name}%'
+			</if>
+		</if>
+
+	</sql>
+
+	<!-- 商品列表查询 -->
+	<!-- parameterType传入包装对象(包装了查询条件) resultType建议使用扩展对象 -->
+	<select id="findStoreList"
+		parameterType="com.lexianmanager.po.StoreManagerVo"
+		resultType="com.lexianmanager.po.Store">
+		SELECT store.* FROM store
+		<where>
+			<include refid="query_store_where"></include>
+		</where>
+	</select>
+
+	<select id="findStoreCommodity"
+		parameterType="com.lexianmanager.po.Commodity_storeQueryVo"
+		resultType="com.lexianmanager.po.Commodity_store">
+		SELECT commodity_store.* FROM commodity_store where sto_no=#{sto_no}
+	</select>
+
+	<select id="findIdByName"
+		parameterType="String"
+		resultType="String">
+		SELECT sto_no FROM store where sto_name=#{sto_name}
+	</select>
+
+	<select id="findCommodityName"
+		parameterType="com.lexianmanager.po.Commodity_storeQueryVo"
+		resultType="String">
+		SELECT com_name FROM commodity where
+		com_no=#{com_no}
+	</select>
+	
+	<insert id="insertStore"
+		parameterType="com.lexianmanager.po.StoreManagerVo">
+		insert into store(sto_name,sto_add,sto_states)
+		values(#{sto_name},#{sto_add},#{sto_states})
+	</insert>
+
+	<update id="updateStore"
+		parameterType="com.lexianmanager.po.StoreManagerVo">
+		update store set
+		sto_name=#{sto_name},sto_add=#{sto_add},sto_states=#{sto_states} where
+		sto_no=#{sto_no}
+	</update>
+
+	<update id="updateCommodity"
+		parameterType="com.lexianmanager.po.Commodity_storeQueryVo">
+		update commodity_store set
+		com_price=#{com_price},com_amount=#{com_amount},type=#{type} where
+		com_no=#{com_no}
+	</update>
+</mapper>

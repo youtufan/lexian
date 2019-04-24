@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lexianmanager.dao.CommodityDao" >
+
+  <select id="findAllCommodity" resultType="com.lexianmanager.po.Commodity" >
+    select * from commodity
+  </select>
+  
+  <select id="findCommodityByNo" parameterType="java.lang.String" resultType="com.lexianmanager.po.Commodity" >
+    select * from commodity where com_no = #{com_no,jdbcType=VARCHAR}
+  </select>
+  
+  <insert id="insertCommodity" parameterType="com.lexianmanager.po.Commodity" >
+    insert into commodity (com_no, com_name,introduce, pictureurl)
+    values (#{com_no,jdbcType=VARCHAR}, #{com_name,jdbcType=VARCHAR}, 
+      #{introduce,jdbcType=VARCHAR}, #{pictureurl,jdbcType=VARCHAR})
+  </insert>
+  
+  <delete id="deleteCommodity" parameterType="java.lang.String" >
+    delete from commodity
+    where com_no = #{com_no,jdbcType=VARCHAR}
+  </delete>
+  
+  <select id="selectCommodityId" parameterType="java.lang.String" resultType="java.lang.String" >
+    select com_id from commodity where com_no = #{com_no,jdbcType=VARCHAR}
+  </select>
+  
+  <update id="updateCommodity" parameterType="com.lexianmanager.po.Commodity">
+    update commodity set com_no = #{com_no},
+    					introduce = #{introduce},
+    					pictureurl = #{pictureurl},
+    					com_name = #{com_name}
+                    where com_id = #{com_id}
+  </update>
+  
+  <select id="selectById" parameterType="String" resultType="com.lexianmanager.po.Commodity" >
+    select * from commodity where com_no = #{com_no}
+  </select>
+  
+   <select id="selectByCom_no" parameterType="String" resultType="com.lexianmanager.po.Commodity_store" >
+    select commodity_store.* from commodity_store where com_no = #{com_no}
+  </select>
+  
+    <select id="selectStoByNo" parameterType="String" resultType="com.lexianmanager.po.Store" >
+    select * from store where sto_no = #{sto_no}
+  </select>
+</mapper>
